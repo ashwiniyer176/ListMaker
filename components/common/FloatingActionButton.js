@@ -1,9 +1,10 @@
 import React from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 
-export default function FloatingActionButton() {
+export default function FloatingActionButton(props) {
+  const {addItem} = props;
   return (
-    <TouchableOpacity style={styles.button}>
+    <TouchableOpacity style={styles.button} onPress={() => addItem}>
       <Text style={styles.buttonText}>+</Text>
     </TouchableOpacity>
   );

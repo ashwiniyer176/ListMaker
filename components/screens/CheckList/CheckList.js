@@ -1,58 +1,52 @@
-import React, {useState} from 'react';
-import {View, Text, StyleSheet, FlatList} from 'react-native';
+import React, {Component, useState} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  TouchableOpacity,
+  Button,
+} from 'react-native';
 import {useRoute} from '@react-navigation/native';
+import CheckBox from '@react-native-community/checkbox';
 
 //Comps
-import Item from './CheckListItem';
 import FloatingActionButton from '../../common/FloatingActionButton';
+import CheckListItem from './CheckListItem';
+import AddItem from './addItem';
 
-export default function List(props) {
-  const route = useRoute();
+export default function CheckList({route}) {
+  const {element} = route.params;
   const [data, setData] = useState([
-    {
-      id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-      title: 'First Item',
-      isChecked: true,
-    },
-    {
-      id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-      title: 'Second Item',
-      isChecked: false,
-    },
-    {
-      id: '58694a0f-3da1-471f-bd96-145571e29d72',
-      title: 'Third Item',
-      isChecked: false,
-    },
-    {
-      id: '58694a0f-3da1-471f-bd96-145571e29d71',
-      title: 'Fourth Item',
-      isChecked: false,
-    },
+    {name: '1', isChecked: false, key: 1},
+    {name: '2', isChecked: false, key: 2},
+    {name: '3', isChecked: false, key: 3},
+    {name: '4', isChecked: false, key: 4},
   ]);
-  const setIsChecked = (item) => {
-    console.log(item);
-    for (i in data) {
-      if (i.id === item.id) {
-        i.isChecked = !itemm.isChecked;
-      }
-    }
-
-    console.log(data);
-  };
-  const {listName} = route.params;
   const renderItem = ({item}) => {
-    return <Item item={item} setIsChecked={() => setIsChecked(item)} />;
+    return <CheckListItem item={item} onPress={pressHandler} />;
+  };
+
+  const pressHandler = (key) => {
+    console.log(key);
+    setData((previousData) => {
+      return previousData.filter((dataElement) => dataElement.key != key);
+    });
+  };
+
+  const makeNewListItem = (itemTitle) => {
+    setData((previousData) => {
+      return [...previousData, {name: itemTitle, key: 9}];
+    });
   };
   return (
     <View style={styles.container}>
-      <Text style={styles.listTitle}>{listName}</Text>
-      <FlatList
-        data={data}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id}
-      />
-      <FloatingActionButton />
+      <Text style={styles.listTitle}>{element.name}</Text>
+      <View style={styles.addItemStyle}>
+        <AddItem makeNewListItem={makeNewListItem} />
+      </View>
+
+      <FlatList data={data} renderItem={renderItem} />
     </View>
   );
 }
@@ -64,5 +58,12 @@ const styles = StyleSheet.create({
   },
   listTitle: {
     fontSize: 40,
+  },
+
+  strikeThroughText: {
+    textDecorationLine: 'line-through',
+  },
+  addItemStyle: {
+    margin: 30,
   },
 });

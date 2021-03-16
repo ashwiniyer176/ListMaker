@@ -11,8 +11,6 @@ import {useState} from 'react';
 
 //Comps
 import Card from '../../common/Card';
-import Item from './MenuItem';
-import MenuItem from './MenuItem';
 
 export default function Menu({navigation}) {
   const [myLists, setMyLists] = useState([
@@ -20,11 +18,9 @@ export default function Menu({navigation}) {
     {name: 'Grocery', key: 7},
   ]);
 
-  const navigateToList = (id) => {
-    console.log(id.name);
-    navigation.navigate('List', {
-      listName: id.name,
-    });
+  var navigateToList = (item) => {
+    console.log(item);
+    navigation.navigate('List', {element: item});
   };
   return (
     <View style={styles.body}>
@@ -36,10 +32,15 @@ export default function Menu({navigation}) {
         <ScrollView>
           {myLists.map((item) => {
             return (
-              <MenuItem
-                item={item}
-                navigateToList={(value) => navigateToList(value)}
-              />
+              <TouchableOpacity onPress={() => navigateToList(item)}>
+                <View
+                  // key={menuItem.key}
+                  style={styles.sectionContainer}
+                  backgroundColor="white">
+                  <View style={styles.icons} />
+                  <Text style={styles.row}>{item.name}</Text>
+                </View>
+              </TouchableOpacity>
             );
           })}
         </ScrollView>
@@ -110,5 +111,29 @@ const styles = StyleSheet.create({
     width: 100,
     borderRadius: 50,
     alignSelf: 'center',
+  },
+  sectionContainer: {
+    flex: 1,
+    padding: 10,
+    alignItems: 'center',
+    flexDirection: 'row',
+    zIndex: 1,
+  },
+  icons: {
+    justifyContent: 'center',
+    alignSelf: 'flex-start',
+    backgroundColor: 'royalblue',
+    height: 50,
+    width: 50,
+    borderRadius: 50,
+    // padding: 50
+  },
+  row: {
+    fontSize: 18,
+    color: 'black',
+    alignSelf: 'flex-start',
+    flexDirection: 'row',
+    marginHorizontal: 10,
+    marginTop: 10,
   },
 });

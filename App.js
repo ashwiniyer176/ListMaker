@@ -5,7 +5,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 //Screens
 import MenuScreen from './components/screens/Menu/Menu';
-import ListScreen from './components/screens/CheckList/CheckList';
+import CheckList from './components/screens/CheckList/CheckList';
 Stack = createStackNavigator();
 export default class App extends Component {
   render() {
@@ -13,7 +13,7 @@ export default class App extends Component {
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen name="Menu" component={MenuScreen} />
-          <Stack.Screen name="List" component={ListScreen} />
+          <Stack.Screen name="List" component={CheckList} />
         </Stack.Navigator>
       </NavigationContainer>
     );

@@ -1,43 +1,21 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
-import CheckBox from '@react-native-community/checkbox';
 
 export default function CheckListItem(props) {
-  const {item, setIsChecked} = props;
-
-  const checkItemStatusForColor = () => {
-    if (item.isChecked) {
-      return [styles.row, {backgroundColor: 'gray'}];
-    } else {
-      return [styles.row, {backgroundColor: 'blue'}];
-    }
-  };
-
-  const checkItemStatusForText = () => {
-    if (item.isChecked) {
-      return [styles.itemTitle, styles.strikeThroughText];
-    }
-    return [styles.itemTitle];
-  };
+  const {item, onPress} = props;
   return (
-    <TouchableOpacity>
-      <View style={checkItemStatusForColor()}>
-        <CheckBox
-          value={item.isChecked}
-          onValueChange={(newValue) => setIsChecked(newValue)}
-          tintColors={{true: 'lightgreen', false: 'lightgreen'}}
-        />
-        <Text style={checkItemStatusForText()}>{item.title}</Text>
-      </View>
+    <TouchableOpacity style={styles.row} onPress={() => onPress(item.key)}>
+      <Text style={styles.itemTitle}>Item: {item.name} </Text>
     </TouchableOpacity>
   );
 }
+
 const styles = StyleSheet.create({
   row: {
-    height: 70,
-    width: 350,
+    height: 50,
+    width: 300,
     borderRadius: 25,
-
+    backgroundColor: 'coral',
     paddingLeft: 20,
     margin: 10,
     alignItems: 'center',
@@ -45,10 +23,7 @@ const styles = StyleSheet.create({
     padding: 30,
   },
   itemTitle: {
-    fontSize: 30,
+    fontSize: 25,
     color: 'white',
-  },
-  strikeThroughText: {
-    textDecorationLine: 'line-through',
   },
 });
